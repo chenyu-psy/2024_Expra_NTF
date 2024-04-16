@@ -42,7 +42,7 @@ dodge4 = position_dodge(.4)
 
 
 # task information
-groupID <- "group0"
+groupID <- "group2"
 IV_list = list(
   group0 = c("setsize", "layout"),
   group1 = c("cueType"),
@@ -83,9 +83,19 @@ Data_survey <- str_glue("./data/Expra_{groupID}_survey.csv") %>%
 
 ```{r}
 
-excluding_list <- Data_survey %>%
+distractor_list <- Data_survey %>%
   filter(str_detect(attention, "Ja|Yes")) %>% # comment it
   pull(participant) # comment it
+
+low_acc_list <- Raw_Res %>% 
+  summarise(
+    acc = mean(acc, na.rm = TRUE),
+    .by = c(participant)
+  ) %>% 
+  filter(acc < 0.7) %>% 
+  pull(participant)
+
+excluding_list <- c(distractor_list, low_acc_list)
 
 Data_Res <- Raw_Res %>% 
   filter(!participant %in% excluding_list) # comment it
@@ -308,10 +318,10 @@ emmeans(Model_RT, ~ condition | setsize * layout) %>% pairs()
 ```{r}
 
 Model_RT_positive <-aov_4(
-  formula = PB ~ setsize * layout + (1 + setsize * layout | participant), 
+  formula = PB ~ setsize * radius + (1 + setsize * radius | participant), 
   data = mData_RT_benefits)
 
-emmeans(Model_RT_positive, ~ layout) %>% pairs()
+emmeans(Model_RT_positive, ~ radius | setsize) %>% pairs()
 
 
 Model_RT_negative <-aov_4(

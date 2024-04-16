@@ -80,12 +80,23 @@ Data_survey <- str_glue("./data/Expra_{groupID}_survey.csv") %>%
 
 ## 2.2 Exclude participants
 1. Exclude participants who were distracted during the task
+2. Exclude participants with accuracy < 70%
 
 ```{r}
 
-excluding_list <- Data_survey %>%
+distractor_list <- Data_survey %>%
   filter(str_detect(attention, "Ja|Yes")) %>% # comment it
   pull(participant) # comment it
+
+low_acc_list <- Raw_Res %>% 
+  summarise(
+    acc = mean(acc, na.rm = TRUE),
+    .by = c(participant)
+  ) %>% 
+  filter(acc < 0.7) %>% 
+  pull(participant)
+
+excluding_list <- c(distractor_list, low_acc_list)
 
 Data_Res <- Raw_Res %>% 
   filter(!participant %in% excluding_list) # comment it
