@@ -1,0 +1,250 @@
+---
+title: "data_analysis"
+author: "Chenyu Li"
+format: html
+editor: source
+editor_options: 
+  chunk_output_type: console
+---
+
+# 1 Initial setting
+
+## 1.1 clear workspacce and set default color
+
+```{r reset, include=FALSE}
+graphics.off()
+rm(list=ls(all.names=TRUE))
+options(digits = 3)
+```
+
+## 1.2 import functions and packages
+
+```{r}
+
+# package list
+packages = c("tidyverse", "afex", "emmeans")
+# get the package names that are not installed
+missing_packages <- setdiff(packages, rownames(installed.packages()))
+# install the missing packages
+if (length(missing_packages) > 0) install.packages(missing_packages)
+suppressMessages(sapply(packages, library, character.only = TRUE))
+
+# import private functions
+function_path <- "./functions"
+function_files <- list.files(function_path, pattern = "*.R", full.names = TRUE)
+sapply(function_files, source)
+
+# theme
+theme_set(theme_bw())
+dodge1 = position_dodge(.1)
+dodge2 = position_dodge(.2)
+dodge4 = position_dodge(.4)
+
+
+# task information
+groupID <- "group0"
+IV_list = list(
+  group0 = c("setsize", "layout"),
+  group1 = c("cueType"),
+  group2 = c("radius", "setsize"),
+  group3 = c("nTarget", "nDsitractor"),
+  group4 = c("ratio", "layout"),
+  group5 = c("colorCon", "layout")
+)
+IVs <- IV_list[[groupID]]
+sample_path <- str_glue("./models/sample_{groupID}/")
+figure_path <- str_glue("./figures/figures_{groupID}/")
+# check whether the folders are existent or not. If not, create a new one
+dir.create(file.path(sample_path), showWarnings = FALSE)
+dir.create(file.path(figure_path), showWarnings = FALSE)
+
+```
+
+
+# 2 Data processing
+
+## 2.1 Load data
+
+```{r}
+
+# behavior data
+Raw_Res <- str_glue("./data/Expra_{groupID}_Res.csv") %>% # the name of the file
+  read_csv() %>% # comment it
+  filter(screenID == "judge") # comment it
+
+# survey data
+Data_survey <- str_glue("./data/Expra_{groupID}_survey.csv") %>% 
+  read_csv()
+
+```
+
+## 2.2 Exclude participants
+1. Exclude participants who were distracted during the task
+
+```{r}
+
+excluding_list <- Data_survey %>%
+  filter(str_detect(attention, "Ja|Yes")) %>% # comment it
+  pull(participant) # comment it
+
+Data_Res <- Raw_Res %>% 
+  filter(!participant %in% excluding_list) # comment it
+
+str_glue(
+  "{length(excluding_list)} participants were excluded from the analysis, ",
+  "leaving {n_distinct(Data_Res$participant)} for the data analysis") %>% message()
+
+```
+
+## 2.3 Exclude trials
+1. Exclude trials with RT < 100 ms or > 10000 ms
+2. Exclude trials with incorrect responses
+3. Exclude trials with RT > 3 SD from the mean RT of each participant in each condition
+
+```{r}
+
+Data_ACC <- Data_Res
+  
+  
+Data_RT <- Data_Res %>% 
+  filter(RT > 100, RT < 10000, acc == 1) %>% # comment it
+  mutate(zRT = scale(RT)) %>% # comment it
+  filter(
+    abs(zRT) < 3, # comment it
+    .by = c(participant, condition)) %>% # comment it
+  mutate(RT = RT/1000) # convert RT to seconds
+
+```
+
+# 3 Data visualization
+
+## 3.1 Aggregate data
+1. Dependent variable: accuracy, reaction time
+2. Independent variables:
+  - within-subject: condition, set size, layout
+  - between-subject: ?
+
+```{r}
+
+Table_ACC <- Data_ACC %>% 
+  summarise(
+    mean = mean(acc), # comment it
+    sd = sd(acc),# comment it
+    se = sd/sqrt(n()), # comment it
+    ci = 1.96 * se, # comment it
+    .by = c(condition, all_of(IVs))
+  ) %>% 
+  labelConditions()
+
+Table_RT <- Data_RT %>% 
+  summarise(
+    mean = mean(RT),
+    sd = sd(RT),
+    se = sd/sqrt(n()),
+    ci = 1.96 * se,
+    .by = c(condition, all_of(IVs))
+  ) %>% 
+  labelConditions()
+
+
+
+
+Data_RT_Benefits <- Data_RT %>% 
+  summarise(
+    RT = mean(RT), # calculate the mean RT
+    .by = c(participant, condition, all_of(IVs))
+  ) %>% 
+  pivot_wider(names_from = condition, values_from = RT) %>% # comment it
+  mutate(
+    PB = neutral - positive, # comment it
+    NB = neutral - negative # comment it
+  )
+
+Table_RT_Benefits <- Data_RT_Benefits %>%
+  select(participant, all_of(IVs), PB, NB) %>% # comment it
+  pivot_longer(cols = c(PB, NB), names_to = "benefit", values_to = "RT") %>% # comment it
+  summarise(
+    mean = mean(RT, na.rm = TRUE),
+    sd = sd(RT, na.rm = TRUE),
+    se = sd/sqrt(n()),
+    ci = 1.96 * se,
+    .by = c(benefit, all_of(IVs))
+  ) %>% 
+  labelConditions()
+
+```
+
+## 3.2 Plot results
+
+### 3.2.1 Accuracy
+
+```{r}
+
+
+```
+
+### 3.2.2 Reaction time (condition)
+
+```{r}
+
+
+```
+
+### 3.2.3 Reaction time (benefits)
+
+```{r}
+
+
+```
+
+
+# 4 Data analysis
+
+## 4.1 Aggregated data
+
+```{r}
+
+mData_ACC <- Data_ACC %>% 
+  summarise(
+    ACC = mean(acc),
+    .by = c(participant, condition, all_of(IVs))
+  )
+
+
+mData_RT_condition <- Data_RT %>% 
+  summarise(
+    RT = mean(RT),
+    .by = c(participant, condition, all_of(IVs))
+  )
+
+
+mData_RT_benefits <- mData_RT_condition %>% 
+  pivot_wider(names_from = condition, values_from = RT) %>% 
+  mutate(PB =  neutral - positive,
+         NB =  neutral - negative)
+
+
+```
+
+## 4.2 Accuracy
+
+```{r}
+
+```
+
+
+## 4.3 Reaction time
+
+### 4.3.1 difference in RT across conditions
+
+```{r}
+
+```
+
+### 4.3.2 benefit of negative and positive information
+
+```{r}
+
+
+```
+

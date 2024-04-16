@@ -1,0 +1,40 @@
+participant,P0_Q0,age,sex,P0_Q3,positive_ques,negative_ques,attention,comments
+1,NA,20,Weiblich,NA,9,9,"Nein, ich war nicht abgelenkt",
+2,NA, 21,Weiblich,NA,9,9,"Nein, ich war nicht abgelenkt",
+3,NA,21,Weiblich,NA,8,8,"Nein, ich war nicht abgelenkt",
+4,NA,21,Male,NA,8,8,"No, I was not",
+5,NA,25,Female,NA,9,9,"No, I was not",
+6,NA,22,Female,NA,9,9,"No, I was not",
+7,NA,21,Männlich,NA,9,8,"Nein, ich war nicht abgelenkt",
+8,NA,25,Male,NA,8,8,"No, I was not",
+9,NA,19,Male,NA,9,2,"No, I was not",
+10,NA,20,Female,NA,9,9,"No, I was not",
+11,NA,23,Female,NA,9,9,"No, I was not",
+12,NA,23,Weiblich,NA,7,3,"Nein, ich war nicht abgelenkt","ein wenig ungenau, da falls die C seitlich waren die persönliche Interpretation grossen Spielraum hatte und ein bisschen zu lang... die Konzentration lässt nach"
+13,NA,22,Weiblich,NA,8,7,"Nein, ich war nicht abgelenkt","Es ist enorm schwer sich so lange zu konzentrieren, wenn kein Ende in Sicht ist. Es wäre schön zu wissen wie viele Runden noch vor einem stehen."
+14,NA,21,Weiblich,NA,9,9,"Nein, ich war nicht abgelenkt",
+15,NA,22,Male,NA,6,9,"No, I was not",nope
+16,NA,19,Weiblich,NA,8,9,"Nein, ich war nicht abgelenkt",
+17,NA,25,Male,NA,9,9,"No, I was not",
+18,NA,21,Männlich,NA,9,9,"Nein, ich war nicht abgelenkt","Zwei oder dreimal habe ich selber gemerkt, dass ich die falsche Taste gecklickt habe. Manchmal habe ich für einen Moment die Konzentration verloren. Es ist schon ein sehr langweiliger Test... Schade, dass die verschiedene Bedingungen nie gemischt vorkamen."
+19,NA,22,Male,NA,8,7,"No, I was not",
+20,NA,19,Female,NA,3,4,"No, I was not",
+21,NA,22,Männlich,NA,9,6,"Nein, ich war nicht abgelenkt",
+22,NA,21,Weiblich,NA,9,8,"Nein, ich war nicht abgelenkt",
+23,NA,26,Female,NA,9,9,"No, I was not",
+25,NA,28,Male,NA,9,9,"No, I was not",
+26,NA,24,Male,NA,8,6,"Yes, I was distracted by something","I sneezed a couple of times and accidentaly entered the wrong input 2/3 times, sorry :("
+27,NA,  19,Male,NA,6,6,"No, I was not",
+28,NA,23,Male,NA,7,8,"Yes, I was distracted by something","nobody distracted me, also I didn't had the phone or music nearby. But it's been a bad day and sometimes I've been in sad mood. I hope is not a problem, and I certainly did it with committment, 
+good luck for your work :)"
+29,NA, 19,Männlich,NA,9,9,"Nein, ich war nicht abgelenkt",
+30,NA,22,Weiblich,NA,9,9,"Nein, ich war nicht abgelenkt",
+31,NA,23,Male,NA,6,4,"No, I was not",
+32,NA, 23,Männlich,NA,9,9,"Nein, ich war nicht abgelenkt",
+33,NA,22,Male,NA,9,9,"No, I was not",
+34,NA, 23,Male,NA,8,8,"No, I was not",
+35,NA,23,Male,NA,9,5,"No, I was not",
+36,NA,22,Female,NA,9,9,"Yes, I was distracted by something",fun but a little long 
+37,NA,26,Male,NA,9,7,"No, I was not",
+38,NA,25,Female,NA,9,9,"No, I was not",
+24,NA, 25,Weiblich,NA,9,9,"Nein, ich war nicht abgelenkt",

@@ -1,0 +1,168 @@
+---
+title: "Download_Data"
+date: "2024-03-12"
+format: html
+editor_options: 
+  chunk_output_type: console
+---
+
+# Clear workspacce and set default color
+
+```{r reset, include=FALSE}
+graphics.off()
+rm(list=ls(all.names=TRUE))
+options(digits = 3)
+```
+
+# Import functions and packages
+
+```{r}
+
+packages = c("tidyverse", "jsonlite")
+suppressMessages(sapply(packages, library, character.only = TRUE))
+
+source("https://raw.githubusercontent.com/chenyu-psy/R-functions/main/get-JATOS-data.R")
+source("https://raw.githubusercontent.com/chenyu-psy/R-functions/main/read-json-files.R")
+
+```
+
+# Set your group information
+
+```{r}
+
+groupInfo <- list(
+  group0 = list(
+    studyId = 586,
+    batchId = 504,
+    dataPath = "./raw_data/Data_group0/",
+    tablePath = "./raw_data/Data_path_group0.csv"
+  ),
+  group1 = list(
+    studyId = 543,
+    batchId = 451:452,
+    dataPath = "./raw_data/Data_group1/",
+    tablePath = "./raw_data/Data_path_group1.csv"
+  ),
+  group2 = list(
+    studyId = 542,
+    batchId = 448:449,
+    dataPath = "./raw_data/Data_group2/",
+    tablePath = "./raw_data/Data_path_group2.csv"
+  ),
+  group3 = list(
+    studyId = 541,
+    batchId = 443:446,
+    dataPath = "./raw_data/Data_group3/",
+    tablePath = "./raw_data/Data_path_group3.csv"
+  ),
+  group4 = list(
+    studyId = 545,
+    batchId = 459:460,
+    dataPath = "./raw_data/Data_group4/",
+    tablePath = "./raw_data/Data_path_group4.csv"
+  ),
+  group5 = list(
+    studyId = 544,
+    batchId = 454:457,
+    dataPath = "./raw_data/Data_group5/",
+    tablePath = "./raw_data/Data_path_group5.csv"
+  )
+)
+
+```
+
+# Download data from JATOS
+
+```{r}
+
+groupID = "group4"
+
+# This function downloads data from JATOS
+# and returns a table involving information about where the data is stored locally.
+Table_jatos_files_ExpDemo <- get_JATOS_data(
+  token = "jap_KRbJz0dIaT2CrZ1YScvBDcMpC0ty6Ik16fab4", # The token is valid until the 12th of May
+  studyId = groupInfo[[groupID]]$studyId, # the study ID of your group
+  batchId = groupInfo[[groupID]]$batchId, # Batch session ID
+  dataPath = groupInfo[[groupID]]$dataPath # Please remember to create 
+)
+
+# Save the table locally so that you can load the data whenever you want.
+Table_jatos_files_ExpDemo %>% write_csv(
+  file = groupInfo[[groupID]]$tablePath
+)
+
+```
+
+# Read data from the local file
+
+```{r}
+
+# Load the table with the data file information.
+Table_jatos_files <- read_csv(groupInfo[[groupID]]$tablePath)
+
+# Filter participants who did not complete the experiment
+Table_jatos_files_filtered <- Table_jatos_files %>% 
+  filter(studyState == "FINISHED", size > 100)
+
+# Read participants' data
+Raw_Expra_data <- read_json_files(Table_jatos_files_filtered$file)
+
+# Get participants' ID
+unique(Raw_Expra_data$participant)
+
+Data_Expra <- Raw_Expra_data %>% 
+  group_by(resultID) %>% 
+  mutate(participant = cur_group_id()) %>% 
+  ungroup()
+
+if ("nDist" %in% colnames(Data_Expra)) Data_Expra <- rename(Data_Expra, nDistractor = nDist)
+
+Data_Res <- Data_Expra %>% 
+  filter(expPart == "experiment") %>% 
+  mutate(
+    radius = case_when(
+      radius/(center_y*2) < 0.3 ~ "small",
+      radius/(center_y*2) < 0.35 ~ "medium",
+      TRUE ~ "large"),
+    acc = ifelse(acc, 1, 0)
+    ) %>%
+  select(
+    participant, blockID, trialID, screenID,
+    setsize, nTarget, nDistractor, layout,
+    colorCon, radius, cueType, cueColor, condition, 
+    correct, acc, rt 
+  ) %>% 
+  rename(
+    block = blockID,
+    trial = trialID,
+    RT = rt
+  )
+
+Table_ratio <- Data_Res %>% 
+  count(participant,condition) %>% 
+  filter(n==max(n),.by="participant") %>% 
+  mutate(
+    ratio = ifelse(groupID!="group4", "even", condition),
+    .by = "participant") %>% 
+  select(participant,ratio) %>% 
+  distinct()
+  
+Data_Res %>%
+  left_join(Table_ratio, by="participant") %>%
+  relocate(ratio,.after=condition) %>%
+  write_csv(file = str_glue("./data/Expra_{groupID}_Res.csv"))
+
+
+Data_Survey <- Data_Expra %>% 
+  filter(screenID == "survey") %>% 
+  select(participant, response) %>% 
+  unnest_wider(response)
+
+if (groupID!="group0") {
+  Data_Survey %>% write_csv(
+    file = str_glue("./data/Expra_{groupID}_survey.csv")
+  )
+}
+
+```
+

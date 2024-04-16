@@ -1,0 +1,7 @@
+.Rproj.user
+.Rhistory
+.RData
+.Ruserdata
+data_analysis_demo.qmd
+raw_data/
+.DS_Store
