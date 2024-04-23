@@ -9,10 +9,15 @@ participant,P0_Q0,age,sex,P0_Q3,positive_ques,negative_ques,attention,comments
 27,NA,26,Männlich,NA,7,7,"Nein, ich war nicht abgelenkt",
 43,NA,22,Weiblich,NA,7,6,"Nein, ich war nicht abgelenkt",
 46,NA,28,Männlich,NA,6,4,"Nein, ich war nicht abgelenkt",
+57,NA,21,Weiblich,NA,9,9,"Nein, ich war nicht abgelenkt",
 25,NA,21,Männlich,NA,8,8,"Nein, ich war nicht abgelenkt",
 32,NA, 20,Weiblich,NA,9,9,"Nein, ich war nicht abgelenkt",
 33,NA,20,Weiblich,NA,9,9,"Ja, ich war von etwas abgelenkt","""Akku fast leer""-Meldung - vielleicht das nächste Mal informieren, dass das Gerät am Strom sein soll, benötigt viel Leistung :)"
 45,NA,20,Männlich,NA,8,8,"Nein, ich war nicht abgelenkt",
+50,NA,24 ,Weiblich,NA,7,6,"Ja, ich war von etwas abgelenkt",
+51,NA,21,Männlich,NA,9,9,"Nein, ich war nicht abgelenkt",
+53,NA,20,Weiblich,NA,8,8,"Nein, ich war nicht abgelenkt",
+54,NA,21,Weiblich,NA,9,9,"Nein, ich war nicht abgelenkt","Ich habe das Experiment spät Abend durchgeführt und war dementsprechend müde. (Keine externe Ablenkung, aber Müdigkeit)"
 4,NA,28,Männlich,NA,9,9,"Nein, ich war nicht abgelenkt",
 6,NA,25,Männlich,NA,9,9,"Nein, ich war nicht abgelenkt",
 7,NA,25,Weiblich,NA,9,7,"Nein, ich war nicht abgelenkt",zu lang lans
@@ -31,6 +36,8 @@ Für Frage 4 etwas ähnlich wie für Frage 3, das ""-"" bringt mich dazu mir im 
 38,NA,19,Weiblich,NA,8,6,"Nein, ich war nicht abgelenkt","Ich würde sagen ich war nicht abgelenkt, aber ich habe durchaus manchmal gedacht ich bräuchte eine Pause oder wie lange soll ich noch das C suchen. Manchmal musste ich mir selbst auch wieder vor Augen führen was die Aufgabe ist und nach was ich suche, was das + und was das - bedeutet."
 39,NA,22,Weiblich,NA,9,8,"Nein, ich war nicht abgelenkt",
 40,NA,22,Weiblich,NA,8,8,"Nein, ich war nicht abgelenkt",
+55,NA,32,Weiblich,NA,9,9,"Nein, ich war nicht abgelenkt",Ich hoffe die Fragen sind so korrekt beantwortet. Bin mir nicht ganz sicher was ihr mit den Fragen meint. Ohne Bedingung wüsste ich ja nicht was ich suchen muss. Und was hat euch Grün angetan? Nie durfte ich Grün suchen ;-) hihi...
+56,NA,25,Weiblich,NA,9,9,"Nein, ich war nicht abgelenkt",anstregend
 5,NA,27,Männlich,NA,9,9,"Nein, ich war nicht abgelenkt",Boah isch das zääch xy
 8,NA,28,Männlich,NA,7,7,"Nein, ich war nicht abgelenkt",
 10,NA,32,Female,NA,9,9,"Yes, I was distracted by something",
@@ -52,3 +59,4 @@ Für Frage 4 etwas ähnlich wie für Frage 3, das ""-"" bringt mich dazu mir im 
 47,NA,27,Männlich,NA,9,9,"Nein, ich war nicht abgelenkt",
 48,NA,27,Männlich,NA,6,4,"Nein, ich war nicht abgelenkt",
 49,NA,28,Weiblich,NA,9,9,"Nein, ich war nicht abgelenkt",Viel Erfolg beim Expra :)
+52,NA,27,Weiblich,NA,8,8,"Ja, ich war von etwas abgelenkt","Es war ein bisschen langweilig, so lange die gleiche Aufgabe zu machen"

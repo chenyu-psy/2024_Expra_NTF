@@ -4,6 +4,8 @@ participant,P0_Q0,age,sex,P0_Q3,positive_ques,negative_ques,attention,comments
 23,NA,21,Male,NA,8,8,"No, I was not",
 25,NA,22,Männlich,NA,9,9,"Nein, ich war nicht abgelenkt",
 28,NA,19,Weiblich,NA,7,3,"Nein, ich war nicht abgelenkt",
+39,NA,20,Weiblich,NA,9,6,"Nein, ich war nicht abgelenkt",es hat mich sehr aggressiv gemacht:)
+41,NA,22,Weiblich,NA,4,9,"Nein, ich war nicht abgelenkt","Vieeeeel zu lange und langweilig, hoffe euch bringt es was :D"
 2,NA,30,Weiblich,NA,6,6,"Nein, ich war nicht abgelenkt",
 4,NA,21,Weiblich,NA,8,6,"Nein, ich war nicht abgelenkt",
 7,NA,20,Weiblich,NA,9,6,"Nein, ich war nicht abgelenkt","Mit der Zeit ermüdend. Sehr verwirrend aber auch spannend wären alle ( +, =, -,) zufällig nach einander> Konzentrationsüberforderung"
@@ -15,6 +17,14 @@ participant,P0_Q0,age,sex,P0_Q3,positive_ques,negative_ques,attention,comments
 17,NA,24,Male,NA,8,7,"No, I was not",
 27,NA,23,Weiblich,NA,8,5,"Nein, ich war nicht abgelenkt",
 29,NA,28,Männlich,NA,9,9,"Nein, ich war nicht abgelenkt",
+30,NA,54,Weiblich,NA,9,9,"Nein, ich war nicht abgelenkt",
+34,NA, 21,Männlich,NA,9,9,"Nein, ich war nicht abgelenkt",
+35,NA,23,Männlich,NA,9,9,"Nein, ich war nicht abgelenkt",
+36,NA,23,Männlich,NA,8,5,"Ja, ich war von etwas abgelenkt",Ablenkung durch kleine Störung am PC und Müdigkeit; Oft falsche Taste gedrückt aber richtiges Zeichen gesehen.
+37,NA,20,Weiblich,NA,9,9,"Nein, ich war nicht abgelenkt",Es war sehr lange und monoton...
+38,NA,22,Männlich,NA,9,7,"Ja, ich war von etwas abgelenkt",
+42,NA,23,Female,NA,7,2,"No, I was not","My potential (undiagnosed) ADHD made this experiment very difficult for me, I got impatient and my body started clicking buttons without me wanting to sometimes. Generally, I feel I went both button- and colourblind during this, as in everything suddenly felt and looked the same after a while."
+44,NA,22,Männlich,NA,8,6,"Nein, ich war nicht abgelenkt",Teils waren bei den Cs kleine Striche zu sehen und so etwas schneller ersichtlich welches das C mit Öffnung ist. 
 1,NA,23,Männlich,NA,9,8,"Nein, ich war nicht abgelenkt",
 3,NA,23,Weiblich,NA,8,8,"Nein, ich war nicht abgelenkt",
 5,NA,23,Männlich,NA,2,8,"Nein, ich war nicht abgelenkt",
@@ -22,6 +32,9 @@ participant,P0_Q0,age,sex,P0_Q3,positive_ques,negative_ques,attention,comments
 18,NA,23,Weiblich,NA,9,9,"Nein, ich war nicht abgelenkt",
 22,NA,22,Männlich,NA,7,5,"Nein, ich war nicht abgelenkt",
 26,NA,21,Weiblich,NA,7,5,"Nein, ich war nicht abgelenkt",
+32,NA,18,Weiblich,NA,9,9,"Nein, ich war nicht abgelenkt",
+33,NA,54,Männlich,NA,9,9,"Nein, ich war nicht abgelenkt",
+40,NA,21,Weiblich,NA,8,9,"Ja, ich war von etwas abgelenkt",
 9,NA,23,Männlich,NA,9,9,"Nein, ich war nicht abgelenkt",
 13,NA,23,Weiblich,NA,4,2,"Nein, ich war nicht abgelenkt","Hatte das Gefühl, dass es mir schwerer viel das bestimmte ""C"" zu finden bei gewissen Farbkonstellationen. Auch hatte ich das Gefühl, dass miene Konzentration nicht immer konstant bleiben konnte. Sie war so Wellenartig teils, voll da und manchmal ein wenig schwächer."
 14,NA,21,Weiblich,NA,8,8,"Ja, ich war von etwas abgelenkt",
@@ -29,3 +42,6 @@ participant,P0_Q0,age,sex,P0_Q3,positive_ques,negative_ques,attention,comments
 16,NA,26,Weiblich,NA,8,7,"Nein, ich war nicht abgelenkt",
 19,NA,23,Männlich,NA,8,8,"Nein, ich war nicht abgelenkt",
 24,NA,21,Weiblich,NA,5,1,"Ja, ich war von etwas abgelenkt","Ich finde das Experiment etwas lange. Nach einer Weile lässt die Konzentration nach und man braucht einfach schlichtweg länger. Ausserdem wäre es schön zu wissen, für was ich das Experiment überhaupt mache. Warum braucht ihr meine Daten und waru genau habt ihr das getestet? Ich verstehe, dass dies nicht am Anfang möglich ist, jedoch wäre am Ende es schön zu wissen, für was ich gerade eine Stunde meines Lebens investiert habe. Ausserdem wäre es noch angebracht, nicht nur eine Versuchsstunde als ""Belohnung"" zu geben, sondern auch etwas anderes für all jene, die nichts mit Versuchsstunden anfangen können. "
+31,NA, 23,Männlich,NA,7,7,"Nein, ich war nicht abgelenkt",
+43,NA,21,Weiblich,NA,7,4,"Nein, ich war nicht abgelenkt",Habe schon lange nicht mehr etwas so langweiliges gemacht und musste mich richtig zwingen dieses Experiment abzuschliessen. Ich habe mich sehr oft dabei erwischt wie meine Gedanken zB. zur Ferienplanung schweiften :) Und Boah Fingerkrampf
+45,NA,22,Männlich,NA,9,9,"Nein, ich war nicht abgelenkt",

@@ -42,12 +42,12 @@ dodge4 = position_dodge(.4)
 
 
 # task information
-groupID <- "group0" # change the groupID
+groupID <- "group5"
 IV_list = list(
   group0 = c("setsize", "layout"),
   group1 = c("cueType"),
   group2 = c("radius", "setsize"),
-  group3 = c("nTarget", "nDsitractor"),
+  group3 = c("nTarget", "nDistractor"),
   group4 = c("ratio", "layout"),
   group5 = c("colorCon", "layout")
 )
@@ -69,8 +69,8 @@ dir.create(file.path(figure_path), showWarnings = FALSE)
 
 # behavior data
 Raw_Res <- str_glue("./data/Expra_{groupID}_Res.csv") %>% # the name of the file
-  read_csv() %>% # comment it
-  filter(screenID == "judge") # comment it
+  read_csv() %>% 
+  filter(screenID == "judge") 
 
 # survey data
 Data_survey <- str_glue("./data/Expra_{groupID}_survey.csv") %>% 
@@ -80,13 +80,12 @@ Data_survey <- str_glue("./data/Expra_{groupID}_survey.csv") %>%
 
 ## 2.2 Exclude participants
 1. Exclude participants who were distracted during the task
-2. Exclude participants with accuracy < 70%
 
 ```{r}
 
 distractor_list <- Data_survey %>%
-  filter(str_detect(attention, "Ja|Yes")) %>% # comment it
-  pull(participant) # comment it
+  filter(str_detect(attention, "Ja|Yes")) %>% 
+  pull(participant) 
 
 low_acc_list <- Raw_Res %>% 
   summarise(
@@ -99,11 +98,30 @@ low_acc_list <- Raw_Res %>%
 excluding_list <- c(distractor_list, low_acc_list)
 
 Data_Res <- Raw_Res %>% 
-  filter(!participant %in% excluding_list) # comment it
+  filter(!participant %in% excluding_list)
+
+consistent_list <- Data_Res %>% 
+  filter(colorCon == "fixed") %>% 
+  select(participant)
+
+switch_list <- Data_Res %>% 
+  filter(colorCon == "switch") %>% 
+  select(participant)
+
+random_list <- Data_Res %>% 
+  filter(colorCon == "random") %>% 
+  select(participant)
+
 
 str_glue(
   "{length(excluding_list)} participants were excluded from the analysis, ",
   "leaving {n_distinct(Data_Res$participant)} for the data analysis") %>% message()
+
+str_glue(
+  "Consistent: {n_distinct(consistent_list$participant)} participants\n",
+  "Switch    : {n_distinct(switch_list$participant)} participants\n",
+  "Random    : {n_distinct(random_list$participant)} participants"
+) %>% message()
 
 ```
 
@@ -116,13 +134,11 @@ str_glue(
 
 Data_ACC <- Data_Res
   
-  
 Data_RT <- Data_Res %>% 
-  filter(RT > 100, RT < 10000, acc == 1) %>% # comment it
-  mutate(zRT = scale(RT)) %>% # comment it
-  filter(
-    abs(zRT) < 3, # comment it
-    .by = c(participant, condition)) %>% # comment it
+  filter(RT > 100, RT < 10000, acc == 1) %>%
+  mutate(zRT = (RT - mean(RT))/sd(RT),
+         .by = c(participant,condition)) %>%
+  filter(abs(zRT) < 3) %>%
   mutate(RT = RT/1000) # convert RT to seconds
 
 ```
@@ -132,17 +148,17 @@ Data_RT <- Data_Res %>%
 ## 3.1 Aggregate data
 1. Dependent variable: accuracy, reaction time
 2. Independent variables:
-  - within-subject: ?
+  - within-subject: condition, set size, layout
   - between-subject: ?
 
 ```{r}
 
 Table_ACC <- Data_ACC %>% 
   summarise(
-    mean = mean(acc), # comment it
-    sd = sd(acc),# comment it
-    se = sd/sqrt(n()), # comment it
-    ci = 1.96 * se, # comment it
+    mean = mean(acc),
+    sd = sd(acc),
+    se = sd/sqrt(n()),
+    ci = 1.96 * se,
     .by = c(condition, all_of(IVs))
   ) %>% 
   labelConditions()
@@ -158,22 +174,20 @@ Table_RT <- Data_RT %>%
   labelConditions()
 
 
-# calculate the benefits -------------------------------------------------------
-
 Data_RT_Benefits <- Data_RT %>% 
   summarise(
     RT = mean(RT), # calculate the mean RT
     .by = c(participant, condition, all_of(IVs))
   ) %>% 
-  pivot_wider(names_from = condition, values_from = RT) %>% # comment it
+  pivot_wider(names_from = condition, values_from = RT) %>% 
   mutate(
-    PB = neutral - positive, # comment it
-    NB = neutral - negative # comment it
+    PB = neutral - positive, 
+    NB = neutral - negative 
   )
 
 Table_RT_Benefits <- Data_RT_Benefits %>%
-  select(participant, all_of(IVs), PB, NB) %>% # comment it
-  pivot_longer(cols = c(PB, NB), names_to = "benefit", values_to = "RT") %>% # comment it
+  select(participant, all_of(IVs), PB, NB) %>% 
+  pivot_longer(cols = c(PB, NB), names_to = "benefit", values_to = "RT") %>% 
   summarise(
     mean = mean(RT, na.rm = TRUE),
     sd = sd(RT, na.rm = TRUE),
@@ -191,6 +205,30 @@ Table_RT_Benefits <- Data_RT_Benefits %>%
 
 ```{r}
 
+Plot_ACC <- Table_ACC %>% 
+  ggplot(aes(x = colorCon, y = mean, group = condition, color = condition)) +
+  geom_line(position = dodge2)+
+  geom_point(position = dodge2)+
+  geom_errorbar(aes(ymin = mean - ci, ymax = mean + ci), width = .1, position = dodge2) +
+  facet_wrap(~layout)+
+  ylim(0.5,1.05)+
+  labs(
+    x = "Group",
+    y = "Proportion of correct",
+    color = "Condition"
+  )+
+  theme(
+    # legend.position = "none",
+    axis.text = element_text(size = 10.5),
+    axis.title = element_text(size = 11),
+    strip.text = element_text(size = 10.5))
+
+ggsave(
+  plot = Plot_ACC,
+  path = figure_path,
+  filename = "Plot_Acc.pdf",
+  width = 8, height = 4
+)
 
 ```
 
@@ -198,6 +236,30 @@ Table_RT_Benefits <- Data_RT_Benefits %>%
 
 ```{r}
 
+Plot_RT_condition <- Table_RT %>% 
+  ggplot(aes(x = colorCon, y = mean, group = condition, color = condition)) +
+  geom_line(position = dodge4)+
+  geom_point(position = dodge4)+
+  geom_errorbar(aes(ymin = mean - ci, ymax = mean + ci), width = .1, position = dodge4) +
+  facet_wrap(~layout)+
+  ylim(0.8, 3)+
+  labs(
+    x = "Group",
+    y = "Reaction time (s)",
+    color = "Condition"
+  )+
+  theme(
+    # legend.position = "none",
+    axis.text = element_text(size = 10.5),
+    axis.title = element_text(size = 11),
+    strip.text = element_text(size = 10.5))
+
+ggsave(
+  plot = Plot_RT_condition,
+  path = figure_path,
+  filename = "Plot_RT_condition.pdf",
+  width = 8, height = 4
+)
 
 ```
 
@@ -205,6 +267,29 @@ Table_RT_Benefits <- Data_RT_Benefits %>%
 
 ```{r}
 
+Plot_RT_benefits <- Table_RT_Benefits %>% 
+  ggplot(aes(x = colorCon, y = mean, group = benefit, color = benefit)) +
+  geom_line(position = dodge4)+
+  geom_point(position = dodge4)+
+  geom_errorbar(aes(ymin = mean - ci, ymax = mean + ci), width = .1, position = dodge4) +
+  facet_wrap(~layout)+
+  ylim(0, 1)+
+  labs(
+    x = "Group",
+    y = "Reaction time benefit (s)",
+    color = "Benefit"
+  )+
+  theme(
+    axis.text = element_text(size = 10.5),
+    axis.title = element_text(size = 11),
+    strip.text = element_text(size = 10.5))
+
+ggsave(
+  plot = Plot_RT_benefits,
+  path = figure_path,
+  filename = "Plot_RT_Benefits.pdf",
+  width = 8, height = 4
+)
 
 ```
 
@@ -249,6 +334,7 @@ mData_RT_benefits <- mData_RT_condition %>%
 ### 4.3.1 difference in RT across conditions
 
 ```{r}
+
 
 ```
 

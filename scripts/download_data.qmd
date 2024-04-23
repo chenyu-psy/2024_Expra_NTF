@@ -21,8 +21,10 @@ options(digits = 3)
 packages = c("tidyverse", "jsonlite")
 suppressMessages(sapply(packages, library, character.only = TRUE))
 
-source("https://raw.githubusercontent.com/chenyu-psy/R-functions/main/get-JATOS-data.R")
-source("https://raw.githubusercontent.com/chenyu-psy/R-functions/main/read-json-files.R")
+# import private functions
+function_path <- "./functions"
+function_files <- list.files(function_path, pattern = "*.R", full.names = TRUE)
+nothing <- sapply(function_files, source)
 
 ```
 
@@ -75,11 +77,11 @@ groupInfo <- list(
 
 ```{r}
 
-groupID = "group4"
+groupID = "group5"
 
 # This function downloads data from JATOS
 # and returns a table involving information about where the data is stored locally.
-Table_jatos_files_ExpDemo <- get_JATOS_data(
+Table_jatos_files <- get_JATOS_data(
   token = "jap_KRbJz0dIaT2CrZ1YScvBDcMpC0ty6Ik16fab4", # The token is valid until the 12th of May
   studyId = groupInfo[[groupID]]$studyId, # the study ID of your group
   batchId = groupInfo[[groupID]]$batchId, # Batch session ID
@@ -87,7 +89,7 @@ Table_jatos_files_ExpDemo <- get_JATOS_data(
 )
 
 # Save the table locally so that you can load the data whenever you want.
-Table_jatos_files_ExpDemo %>% write_csv(
+Table_jatos_files %>% write_csv(
   file = groupInfo[[groupID]]$tablePath
 )
 
@@ -105,7 +107,7 @@ Table_jatos_files_filtered <- Table_jatos_files %>%
   filter(studyState == "FINISHED", size > 100)
 
 # Read participants' data
-Raw_Expra_data <- read_json_files(Table_jatos_files_filtered$file)
+Raw_Expra_data <- read_json_data(Table_jatos_files_filtered$file)
 
 # Get participants' ID
 unique(Raw_Expra_data$participant)
